@@ -45,7 +45,7 @@ document.getElementById("masthead-seal").innerHTML = sealSVG();
     if (res.ok && res.data.ok) {
       const no = res.data.kind === "claim" ? res.data.claim.registry_no : res.data.amendment.registry_no;
       if (no) {
-        window.location.replace(`${certPath(no)}?minted=1`);
+        window.location.replace(`${certPath(no)}&minted=1`);
         return;
       }
     }

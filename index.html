@@ -369,7 +369,7 @@ form.addEventListener("submit", async (e) => {
       registry_no: c.registry_no, token: c.token, pay_url: c.pay_url,
       payments_open: c.payments_open, price_cents: c.price_cents,
     });
-    window.location.href = `${certPath(c.registry_no)}?t=${encodeURIComponent(c.token)}&new=1`;
+    window.location.href = `${certPath(c.registry_no)}&t=${encodeURIComponent(c.token)}&new=1`;
   } catch {
     errBox.textContent = "The Department could not be reached. It happens to everyone.";
     errBox.classList.add("show");

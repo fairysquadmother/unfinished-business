@@ -200,7 +200,7 @@ function renderActions(c) {
 
   document.getElementById("act-print").addEventListener("click", () => window.print());
   document.getElementById("act-share").addEventListener("click", async () => {
-    const url = `${location.origin}${certPath(c.registry_no)}`;
+    const url = new URL(certPath(c.registry_no), location.href).toString();
     try {
       await navigator.clipboard.writeText(url);
       toast("Link copied. Distribute with appropriate gravity.");

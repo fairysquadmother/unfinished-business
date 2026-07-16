@@ -81,6 +81,7 @@ function fmtEffective(iso) {
 
 function certPath(no) {
   // Relative, query-param form: works on any static host with no rewrite rules.
+  // NOTE: already contains a query string — append further params with "&".
   return `cert.html?no=${encodeURIComponent(no)}`;
 }
 
