@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Public Registry of Unfinished Business</title>
+<meta name="description" content="The permanent public record of honorably abandoned novels, apps, marathons, and sourdough starters.">
+<meta property="og:title" content="The Public Registry of Unfinished Business">
+<meta property="og:description" content="A permanent public record of everything everyone stopped doing, filed with full honors.">
+<meta name="twitter:card" content="summary">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/dub.css">
+</head>
+<body>
+
+<div class="wrap">
+  <div class="formline">
+    <span><a href="./" style="text-decoration:none; color:inherit">← The Department</a></span>
+    <span>Ledger UB-9 · Public Inspection Copy</span>
+  </div>
+
+  <header class="masthead" style="padding-top:34px">
+    <div class="seal" id="masthead-seal" style="width:72px; height:72px" aria-hidden="true"></div>
+    <h1 style="font-size:clamp(22px,4.4vw,32px)">The Public Registry<br>of Unfinished Business</h1>
+    <div class="office">Where matters remain finished being unfinished, in perpetuity</div>
+  </header>
+
+  <div class="reg-stats" id="reg-stats">Consulting the ledger…</div>
+
+  <div class="reg-search">
+    <input type="text" id="reg-q" placeholder="Search the record — project, holder, cause, number" aria-label="Search the registry">
+  </div>
+
+  <div class="reg-table-wrap">
+    <table class="reg" id="reg-table">
+      <thead>
+        <tr><th>Registry No.</th><th>Undertaking</th><th>Holder</th><th>Cause of Abandonment</th><th>Guilt Accrued</th><th>Status</th></tr>
+      </thead>
+      <tbody><tr><td colspan="6" style="text-align:center; font-family:var(--mono); font-size:13px; color:var(--ink-faded)">Consulting the filing cabinet…</td></tr></tbody>
+    </table>
+  </div>
+
+  <p style="text-align:center; margin:26px 0"><a class="btn btn-primary" href="./#form-ub1">File your own — $4</a></p>
+
+  <footer>
+    <div class="foot-meta">
+      The Department of Unfinished Business · satirical novelty documents · no legal effect, considerable relief<br>
+      Entries may be flagged from their certificate page; three flags from separate households withhold an entry pending the Registrar’s attention.
+    </div>
+  </footer>
+</div>
+
+<script src="assets/dub.js"></script>
+<script>
+document.getElementById("masthead-seal").innerHTML = sealSVG();
+
+let ROWS = [];
+
+function draw(rows) {
+  const tbody = document.querySelector("#reg-table tbody");
+  if (!rows.length) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center">Nothing in the record matches. Statistically, someone has abandoned it anyway.</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = rows.map((r) => {
+    const s = stampInfo(r);
+    const withheld = r.project === "WITHHELD";
+    return `<tr>
+      <td class="no"><a href="${certPath(r.claim_key)}">${esc(r.claim_key)}</a></td>
+      <td>${withheld ? '<span class="withheld">WITHHELD</span>' : esc(r.project)}</td>
+      <td>${withheld ? '<span class="withheld">—</span>' : esc(r.claimant)}</td>
+      <td>${withheld ? '<span class="withheld">—</span>' : esc(r.meta.cause || "—")}</td>
+      <td class="guilt">${withheld ? "—" : fmtInt(r.meta.guilt_days) + " days"}</td>
+      <td><span class="badge ${s.cls}">${s.label}</span>${r.meta.honors ? ' <span class="badge honors">HONORS</span>' : ""}</td>
+    </tr>`;
+  }).join("");
+}
+
+(async () => {
+  try {
+    ROWS = await dubRest("registry_live?select=claim_key,project,claimant,stamp,status,meta,created_at&order=created_at.desc&limit=200");
+    const closed = ROWS.length;
+    const contested = ROWS.filter((r) => r.stamp === "contested").length;
+    const miracles = ROWS.filter((r) => r.stamp === "miracle").length;
+    const guilt = ROWS.reduce((a, r) => a + (r.meta.guilt_days || 0), 0);
+    document.getElementById("reg-stats").textContent =
+      `${closed} matter${closed === 1 ? "" : "s"} closed · ${fmtInt(guilt)} days of guilt discharged · ${contested} under contest · ${miracles} miracle${miracles === 1 ? "" : "s"} on record`;
+    draw(ROWS);
+  } catch {
+    document.getElementById("reg-stats").textContent = "The ledger is momentarily unavailable.";
+    document.querySelector("#reg-table tbody").innerHTML =
+      `<tr><td colspan="6" style="text-align:center">The filing cabinet is jammed. It will be repaired eventually, probably.</td></tr>`;
+  }
+})();
+
+document.getElementById("reg-q").addEventListener("input", (e) => {
+  const q = e.target.value.trim().toLowerCase();
+  if (!q) { draw(ROWS); return; }
+  draw(ROWS.filter((r) =>
+    r.claim_key.toLowerCase().includes(q) ||
+    (r.project || "").toLowerCase().includes(q) ||
+    (r.claimant || "").toLowerCase().includes(q) ||
+    ((r.meta && r.meta.cause) || "").toLowerCase().includes(q)
+  ));
+});
+</script>
+</body>
+</html>

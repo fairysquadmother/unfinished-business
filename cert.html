@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Certificate of Honorable Abandonment — The Department of Unfinished Business</title>
+<meta name="description" content="A matter of public record at the Department of Unfinished Business.">
+<meta property="og:title" content="Certificate of Honorable Abandonment">
+<meta property="og:description" content="A matter of public record at the Department of Unfinished Business. It’s not giving up. It’s paperwork.">
+<meta name="twitter:card" content="summary">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/dub.css">
+</head>
+<body class="printing-cert">
+
+<div class="wrap">
+  <div class="formline">
+    <span><a href="./" style="text-decoration:none; color:inherit">← The Department</a></span>
+    <span>Certificate on File</span>
+  </div>
+
+  <div class="cert-stage">
+    <div id="cert-root">
+      <p style="text-align:center; font-family:var(--mono); font-size:13px; color:var(--ink-faded); padding:60px 0">
+        Retrieving the file…
+      </p>
+    </div>
+  </div>
+
+  <div id="pay-root"></div>
+  <div id="objections-root"></div>
+  <div id="actions-root"></div>
+
+  <footer>
+    <div class="foot-meta">
+      The Department of Unfinished Business · satirical novelty documents · no legal effect, considerable relief<br>
+      <a href="./#form-ub1">File your own discharge — $4</a> · <a href="registry.html">Public Registry</a>
+    </div>
+  </footer>
+</div>
+
+<!-- Objection modal -->
+<div class="modal-back" id="obj-modal">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="obj-title">
+    <h3 id="obj-title">Formal Objection to Abandonment</h3>
+    <div class="m-sub">$5 filing fee. Both documents will be stamped CONTESTED. No project has ever been finished this way. The Department admires the gesture anyway.</div>
+    <div class="form-error" id="obj-error" role="alert"></div>
+    <div class="field">
+      <label for="obj-name">Name of believer</label>
+      <input type="text" id="obj-name" maxlength="60" placeholder="A. Believer">
+    </div>
+    <div class="field">
+      <label for="obj-statement">Statement of faith</label>
+      <input type="text" id="obj-statement" maxlength="180" value="I believe they will finish it.">
+    </div>
+    <div class="cta-row" style="margin:10px 0 0">
+      <button class="btn btn-primary" id="obj-submit">File Objection — $5</button>
+      <button class="btn" id="obj-cancel">Withdraw</button>
+    </div>
+  </div>
+</div>
+
+<script src="assets/dub.js"></script>
+<script>
+const PATH_NO = decodeURIComponent((location.pathname.match(/\/cert\/([^/]+)/) || [])[1] || "")
+  || new URLSearchParams(location.search).get("no") || "";
+const PARAMS = new URLSearchParams(location.search);
+const REG_NO = PATH_NO.trim().toUpperCase();
+
+let CERT = null;        // full record
+let TOKEN = null;       // proof of ownership, if this visitor filed it
+let PAY_LINKS = {};     // public config
+
+function statusLine(c) {
+  if (c.status === "pending") return "PENDING — FEE DUE";
+  if (c.stamp === "miracle") return "COMPLETED — CLASSIFICATION: MIRACLE";
+  if (c.stamp === "contested") return "CONTESTED";
+  return "DISCHARGED";
+}
+
+function renderCert(c) {
+  const withheld = c.project === "WITHHELD";
+  const honors = !!(c.meta && c.meta.honors);
+  const stamps = [];
+  if (c.status === "pending") stamps.push('<div class="stamp awaiting">Awaiting Fee</div>');
+  if (c.stamp === "contested") stamps.push('<div class="stamp contested">Contested</div>');
+  if (c.stamp === "miracle") stamps.push('<div class="stamp miracle">Completed — Classification: Miracle</div>');
+
+  const recital = withheld
+    ? `the particulars of which are withheld at the holder’s request, having been pursued to the full extent that time, energy, and interest allowed, and not one step further, is hereby declared`
+    : `begun in good faith in ${esc(fmtMonth(c.meta.began))} by the holder named below, having been pursued to the full extent that time, energy, and interest allowed, and not one step further, is hereby declared`;
+
+  document.getElementById("cert-root").innerHTML = `
+  <div class="certificate ${honors ? "honors" : ""}">
+    <div class="corner tl">${cornerSVG()}</div><div class="corner tr">${cornerSVG()}</div>
+    <div class="corner br">${cornerSVG()}</div><div class="corner bl">${cornerSVG()}</div>
+
+    <div class="c-dept">The Department of Unfinished Business</div>
+    <div class="c-title">Certificate of Honorable Abandonment</div>
+    <div class="c-regno">Registry No. ${esc(c.registry_no)}</div>
+
+    <div class="c-knowall">Be it known to all persons that the undertaking known as</div>
+    <div class="c-project">${withheld ? '<span class="withheld">[ WITHHELD ]</span>' : esc(c.project)}</div>
+    <div class="c-recital">${recital}</div>
+    <div class="c-declared">Honorably Abandoned</div>
+    <div class="c-effective">effective ${esc(fmtEffective(c.created_at))}</div>
+
+    <div class="c-stats">
+      ${stamps.join("")}
+      <div><span class="k">DURATION OF SERVICE:</span> ${withheld ? "WITHHELD" : esc(c.meta.duration_text || "—")}</div>
+      <div><span class="k">GUILT ACCRUED:</span> ${withheld ? "WITHHELD" : fmtInt(c.meta.guilt_days) + " days"}</div>
+      <div><span class="k">OFFICIAL CAUSE OF ABANDONMENT:</span> ${withheld ? "WITHHELD" : esc(c.meta.cause || "—")}</div>
+      <div><span class="k">STATUS:</span> ${statusLine(c)}${honors ? " · WITH FULL HONORS" : ""}</div>
+      <div><span class="k">FINAL DISPOSITION:</span> Released from all further expectation</div>
+    </div>
+
+    <div class="c-conditions">
+      <div class="ch">Conditions of Release</div>
+      <p><b>Article I.</b> The holder shall no longer say “I should really get back to that.”</p>
+      <p><b>Article II.</b> The holder shall not open the project folder to check on it. It is fine. It is exactly where they left it.</p>
+      <p><b>Article III.</b> The holder is free to begin something new, which the Department notes, without comment, is how this one started.</p>
+    </div>
+
+    <div class="c-closing">
+      The above-named project is discharged from the conscience of
+      <b style="font-style:normal">${withheld ? "the holder of record" : esc(c.name)}</b>
+      ${honors ? "with full honors" : "with honor"}. This matter is closed and — like the project — will not be revisited.
+      Entered this day into the Public Registry of Unfinished Business, where it shall remain finished being unfinished in perpetuity.
+    </div>
+
+    <div class="c-sig-row">
+      <div class="c-seal">${sealSVG({ gold: honors })}</div>
+      <div class="c-sig">
+        <div class="sig-script">The Registrar</div>
+        <div class="sig-line">Registrar of Unfinished Business</div>
+        <div class="sig-note">(who was not there, and is taking your word for it)</div>
+      </div>
+    </div>
+
+    <div class="c-fine">This certificate certifies nothing and settles everything.</div>
+  </div>`;
+
+  document.title = withheld
+    ? `${c.registry_no} — Certificate of Honorable Abandonment`
+    : `${c.project} — Honorably Abandoned — ${c.registry_no}`;
+}
+
+function renderPayBanner(c) {
+  const root = document.getElementById("pay-root");
+  if (c.status !== "pending" || !TOKEN) { root.innerHTML = ""; return; }
+  const stored = dubFilings()[c.registry_no] || {};
+  let payUrl = stored.pay_url;
+  if (!payUrl && PAY_LINKS.payments_open === "true" && c.id) {
+    const base = c.meta && c.meta.honors ? PAY_LINKS.pay_link_honors : PAY_LINKS.pay_link_standard;
+    if (base) payUrl = `${base}?client_reference_id=${c.id}`;
+  }
+  const price = ((c.price_cents ?? 400) / 100).toFixed(0);
+  if (payUrl) {
+    root.innerHTML = `<div class="pay-banner">
+      <div class="pb-head">The filing fee is due</div>
+      <p>Your registry number is assigned and held for 72 hours. Pay the $${price} fee at the till to make the discharge official and enter it into the Public Registry.</p>
+      <a class="btn btn-primary" href="${esc(payUrl)}">Pay the Filing Fee — $${price}</a>
+    </div>`;
+  } else {
+    root.innerHTML = `<div class="pay-banner">
+      <div class="pb-head">Filed and held</div>
+      <p>The Registrar’s till opens shortly. Your filing and registry number are held for 72 hours; return to this page (bookmark it) to pay the $${price} fee and make the discharge official. Nothing further is required of you, a phrase we suspect you enjoy.</p>
+    </div>`;
+  }
+}
+
+async function renderObjections(c) {
+  const root = document.getElementById("objections-root");
+  try {
+    const rows = await dubRest(`registry_amendments_live?select=type,objector_name,statement,created_at&claim_key=eq.${encodeURIComponent(c.registry_no)}&order=created_at.asc`);
+    const objs = rows.filter((r) => r.type === "objection");
+    if (!objs.length) { root.innerHTML = ""; return; }
+    root.innerHTML = `<div class="objections">
+      <div class="o-head">Objections on file — matter contested</div>
+      ${objs.map((o) => `<div class="o-item">“${esc(o.statement)}”<br><span class="o-by">— ${esc(o.objector_name)}, filed ${new Date(o.created_at).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</span></div>`).join("")}
+    </div>`;
+  } catch { root.innerHTML = ""; }
+}
+
+function renderActions(c) {
+  const isHolder = !!TOKEN;
+  const canMiracle = isHolder && c.stamp !== "miracle" && c.status !== "pending";
+  const canObject = c.status !== "pending" && c.stamp !== "miracle";
+  document.getElementById("actions-root").innerHTML = `<div class="cert-actions">
+    <button class="btn" id="act-print">Print / Save PDF</button>
+    <button class="btn" id="act-share">Copy Link</button>
+    ${canObject ? '<button class="btn" id="act-object">File an Objection — $5</button>' : ""}
+    ${canMiracle ? '<button class="btn" id="act-miracle">Report a Miracle — $3</button>' : ""}
+    <button class="btn" id="act-report" title="Flag this entry for the Registrar">⚑ Flag</button>
+  </div>
+  <div class="small-print">Objections may be filed by any believer. Miracles, only by the holder.</div>`;
+
+  document.getElementById("act-print").addEventListener("click", () => window.print());
+  document.getElementById("act-share").addEventListener("click", async () => {
+    const url = `${location.origin}${certPath(c.registry_no)}`;
+    try {
+      await navigator.clipboard.writeText(url);
+      toast("Link copied. Distribute with appropriate gravity.");
+    } catch { toast(url); }
+  });
+
+  const objBtn = document.getElementById("act-object");
+  if (objBtn) objBtn.addEventListener("click", () => openObjModal());
+
+  const mirBtn = document.getElementById("act-miracle");
+  if (mirBtn) mirBtn.addEventListener("click", async () => {
+    if (!confirm("You are reporting that this project was, against every precedent, finished. The Department will require $3 and your word. Proceed?")) return;
+    mirBtn.disabled = true;
+    const res = await dubFn("registry-amend", { registry_no: c.registry_no, type: "miracle", token: TOKEN });
+    if (!res.ok || !res.data.ok) {
+      mirBtn.disabled = false;
+      toast((res.data && res.data.error) || "The filing cabinet jammed.");
+      return;
+    }
+    const a = res.data.amendment;
+    dubSavePendingAmendment({ token: a.token, registry_no: c.registry_no });
+    if (a.pay_url) { window.location.href = a.pay_url; return; }
+    mirBtn.disabled = false;
+    toast("Miracle noted and held. The till opens shortly; return to this page to pay the $3 fee.", 6000);
+  });
+
+  document.getElementById("act-report").addEventListener("click", async () => {
+    const reason = prompt("Flag this entry for the Registrar’s review. Reason (optional):");
+    if (reason === null) return;
+    const res = await dubFn("registry-report", { registry_no: c.registry_no, reason });
+    toast((res.data && res.data.message) || "Received.");
+  });
+}
+
+/* modal focus management */
+let objLastFocus = null;
+const objModal = document.getElementById("obj-modal");
+function openObjModal() {
+  objLastFocus = document.activeElement;
+  objModal.classList.add("show");
+  document.body.style.overflow = "hidden";
+  document.querySelector(".wrap").setAttribute("inert", "");
+  document.getElementById("obj-name").focus();
+}
+function closeObjModal() {
+  objModal.classList.remove("show");
+  document.body.style.overflow = "";
+  document.querySelector(".wrap").removeAttribute("inert");
+  if (objLastFocus && objLastFocus.isConnected) objLastFocus.focus();
+}
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && objModal.classList.contains("show")) closeObjModal();
+});
+objModal.addEventListener("click", (e) => {
+  if (e.target === objModal) closeObjModal();
+});
+
+/* objection modal wiring */
+document.getElementById("obj-cancel").addEventListener("click", () => closeObjModal());
+document.getElementById("obj-submit").addEventListener("click", async () => {
+  const err = document.getElementById("obj-error");
+  const btn = document.getElementById("obj-submit");
+  err.classList.remove("show");
+  const name = document.getElementById("obj-name").value.trim();
+  const statement = document.getElementById("obj-statement").value.trim();
+  if (!name) { err.textContent = "An objection requires a believer’s name."; err.classList.add("show"); return; }
+  btn.disabled = true;
+  btn.textContent = "Filing…";
+  const res = await dubFn("registry-amend", { registry_no: REG_NO, type: "objection", name, statement });
+  if (!res.ok || !res.data.ok) {
+    btn.disabled = false;
+    btn.textContent = "File Objection — $5";
+    err.textContent = (res.data && res.data.error) || "The filing cabinet jammed.";
+    err.classList.add("show");
+    return;
+  }
+  const a = res.data.amendment;
+  dubSavePendingAmendment({ token: a.token, registry_no: REG_NO });
+  closeObjModal();
+  if (a.pay_url) { window.location.href = a.pay_url; return; }
+  btn.disabled = false;
+  btn.textContent = "File Objection — $5";
+  toast("Objection noted and held. The till opens shortly; the stamp is applied when the fee clears.", 6000);
+});
+
+/* load */
+(async () => {
+  if (!/^UB-\d{4}-\d{6}$/.test(REG_NO)) {
+    document.getElementById("cert-root").innerHTML =
+      `<p style="text-align:center; padding:60px 0">No such file. The Department loses nothing, but it never had this. <a href="./">Return to the office.</a></p>`;
+    return;
+  }
+
+  TOKEN = PARAMS.get("t") || (dubFilings()[REG_NO] || {}).token || null;
+
+  try {
+    const cfgRows = await dubRest("registry_public_config?select=key,value");
+    PAY_LINKS = Object.fromEntries(cfgRows.map((r) => [r.key, r.value]));
+  } catch { PAY_LINKS = {}; }
+
+  let c = null;
+  if (TOKEN) {
+    const res = await dubFn("registry-confirm", { token: TOKEN, action: "lookup" });
+    if (res.ok && res.data.ok && res.data.kind === "claim" && res.data.claim.registry_no === REG_NO) {
+      c = res.data.claim;
+    } else {
+      TOKEN = null; // stale or foreign token; fall back to public record
+    }
+  }
+  if (!c) {
+    try {
+      const rows = await dubRest(`registry_live?select=claim_key,cert_serial,project,claimant,stamp,status,visibility,meta,created_at&claim_key=eq.${encodeURIComponent(REG_NO)}`);
+      if (rows.length) {
+        const r = rows[0];
+        c = { registry_no: r.claim_key, cert_serial: r.cert_serial, project: r.project, name: r.claimant,
+              status: r.status, visibility: r.visibility, stamp: r.stamp, meta: r.meta, created_at: r.created_at };
+      }
+    } catch { /* handled below */ }
+  }
+  if (!c) {
+    document.getElementById("cert-root").innerHTML =
+      `<p style="text-align:center; padding:60px 0">No public record at ${esc(REG_NO)}. It may be awaiting its fee, withheld, or imaginary — the Department treats all three the same. <a href="./">Return to the office.</a></p>`;
+    return;
+  }
+
+  CERT = c;
+  if (PARAMS.get("minted") === "1") toast("The matter is closed. You are free to go start something else.", 5200);
+  renderCert(c);
+  renderPayBanner(c);
+  renderObjections(c);
+  renderActions(c);
+})();
+</script>
+</body>
+</html>

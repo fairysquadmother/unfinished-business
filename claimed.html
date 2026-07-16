@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Processing — The Department of Unfinished Business</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/dub.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="masthead">
+    <div class="seal" id="masthead-seal" style="width:72px; height:72px" aria-hidden="true"></div>
+    <h1 style="font-size:clamp(22px,4.4vw,32px)">Processing Your Filing</h1>
+    <div class="office" id="status-line" aria-live="polite">Stamping…</div>
+  </header>
+  <div class="notice" id="msg" style="text-align:center" role="status" aria-live="polite">
+    The clerk is applying the stamp. This is the fastest anything has ever moved in this building.
+  </div>
+  <p style="text-align:center; margin-top:26px"><a class="btn" href="./" id="home-link" hidden>Return to the Department</a></p>
+</div>
+
+<script src="assets/dub.js"></script>
+<script>
+document.getElementById("masthead-seal").innerHTML = sealSVG();
+
+(async () => {
+  const msg = document.getElementById("msg");
+  const statusLine = document.getElementById("status-line");
+  const pending = dubLastPending();
+
+  if (!pending || !pending.token) {
+    statusLine.textContent = "No filing found";
+    msg.textContent = "The clerk finds no filing awaiting a stamp on this device. If you just paid, open the certificate link from the device you filed on — the record is safe either way.";
+    document.getElementById("home-link").hidden = false;
+    return;
+  }
+
+  try {
+    const res = await dubFn("registry-confirm", { token: pending.token, action: "confirm" });
+    if (res.ok && res.data.ok) {
+      const no = res.data.kind === "claim" ? res.data.claim.registry_no : res.data.amendment.registry_no;
+      if (no) {
+        window.location.replace(`${certPath(no)}?minted=1`);
+        return;
+      }
+    }
+    statusLine.textContent = "Filed, pending review";
+    msg.textContent = "Payment noted. The stamp is applied within a minute or two — your certificate page will reflect it. Thank you for your patience, which the Department does not deserve.";
+  } catch {
+    statusLine.textContent = "Momentary jam";
+    msg.textContent = "The filing cabinet jammed at the worst moment. Your payment and filing are safe; open your certificate page in a minute.";
+  }
+  document.getElementById("home-link").hidden = false;
+})();
+</script>
+</body>
+</html>

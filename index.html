@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Department of Unfinished Business — Certificates of Honorable Abandonment</title>
+<meta name="description" content="Official Certificates of Honorable Abandonment for the novel, the app, the half-marathon, the sourdough starter. Four dollars. Permanent record. Off your conscience in perpetuity.">
+<meta property="og:title" content="The Department of Unfinished Business">
+<meta property="og:description" content="It’s not giving up. It’s paperwork. Certificates of Honorable Abandonment — $4, guilt computed to the day, permanent public registry.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/dub.css">
+</head>
+<body>
+
+<div class="wrap">
+  <div class="formline">
+    <span>Form UB-1 · Rev. 7/2026</span>
+    <span>Office of the Registrar</span>
+  </div>
+
+  <header class="masthead">
+    <div class="seal" id="masthead-seal" aria-hidden="true"></div>
+    <h1>The Department of<br>Unfinished Business</h1>
+    <div class="office">Public Registry · Certificates · Closure</div>
+    <div class="rule-orn">❦</div>
+    <p class="tagline">It’s not giving up. It’s paperwork.</p>
+  </header>
+
+  <section class="hero">
+    <h2>You were never going to finish it.</h2>
+    <p>Now that’s official. The Department issues Certificates of Honorable Abandonment for the novel, the app, the half-marathon, the sourdough starter. Four dollars. Permanent record. Off your conscience in perpetuity.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#form-ub1">File for Discharge — $4</a>
+      <a class="btn" href="registry.html">Browse the Public Registry</a>
+    </div>
+  </section>
+
+  <div class="notice" id="payments-notice" hidden>
+    <strong>NOTICE:</strong> The Registrar’s till opens shortly. Filings are accepted now and held for
+    72 hours pending payment of the fee. Your registry number is assigned immediately and will wait,
+    which is more than can be said for you.
+  </div>
+
+  <section id="how">
+    <h2 class="sec-head">Procedure</h2>
+    <div class="sec-sub">Four steps. Which is three more than the project got.</div>
+    <ol class="steps">
+      <li>Name the project and the year it began. The Department appreciates that this is the hardest step.</li>
+      <li>Select an official Cause of Abandonment — Seasonal Ambition, Scope Creep, I Met Someone (a Different Hobby) — or state your own. The Department does not judge. The Department files.</li>
+      <li>Pay four dollars. Your case is reviewed by no one and approved instantly, a level of momentum your project never experienced.</li>
+      <li>Receive your Certificate of Honorable Abandonment — guilt accrued computed to the day — and a numbered entry in the permanent Public Registry. The matter is closed. You are free to go start something else.</li>
+    </ol>
+  </section>
+
+  <section id="file">
+    <h2 class="sec-head">Petition for Honorable Discharge</h2>
+    <div class="sec-sub">Complete all fields. Estimates accepted without comment.</div>
+
+    <form class="formbox" id="form-ub1" novalidate>
+      <div class="form-title">
+        <span>Form UB-1 — Petition for Honorable Discharge</span>
+        <span>OMB Approval: Not Sought</span>
+      </div>
+      <div class="form-body">
+        <div class="form-error" id="form-error" role="alert"></div>
+
+        <div class="field">
+          <label for="f-project">1. Undertaking to be discharged</label>
+          <input type="text" id="f-project" maxlength="80" placeholder="The Novel (Untitled)" autocomplete="off">
+          <div class="hint">As it will appear on the certificate and in the permanent record. No links, emails, or identifiable private individuals — the Registry files failures, not accusations.</div>
+        </div>
+
+        <div class="field">
+          <span class="label">2. Begun in good faith in</span>
+          <div class="field-row">
+            <select id="f-began-m" aria-label="Month begun"></select>
+            <select id="f-began-y" aria-label="Year begun"></select>
+          </div>
+        </div>
+
+        <div class="field">
+          <span class="label">3. Last touched (optional)</span>
+          <div class="field-row">
+            <select id="f-touched-m" aria-label="Month last touched"><option value="">Month —</option></select>
+            <select id="f-touched-y" aria-label="Year last touched"><option value="">Year —</option></select>
+          </div>
+          <div class="hint">If known. Guilt accrues from this date. The Department understands if you would rather not look.</div>
+        </div>
+
+        <div class="field">
+          <label for="f-cause">4. Official cause of abandonment</label>
+          <select id="f-cause"></select>
+          <input type="text" id="f-cause-custom" maxlength="60" placeholder="State the cause in your own words" aria-label="Cause of abandonment, in your own words" style="display:none; margin-top:8px" autocomplete="off">
+        </div>
+
+        <div class="field">
+          <label for="f-name">5. Name of holder, as it will appear</label>
+          <input type="text" id="f-name" maxlength="60" placeholder="M. Fitzgerald" autocomplete="off">
+          <div class="hint">Initials acceptable. The Department does not verify.</div>
+        </div>
+
+        <div class="field" role="radiogroup" aria-labelledby="lbl-vis">
+          <span class="label" id="lbl-vis">6. Registry visibility</span>
+          <label class="radio-card">
+            <input type="radio" name="f-vis" value="public" checked>
+            <span><span class="rc-title">Public</span><br>
+            <span class="rc-desc">Entered in the browsable Public Registry with a shareable certificate page. The public ones get all the sympathy.</span></span>
+          </label>
+          <label class="radio-card">
+            <input type="radio" name="f-vis" value="withheld">
+            <span><span class="rc-title">Withheld</span><br>
+            <span class="rc-desc">Your entry appears as a registry number and the word WITHHELD, which frankly looks even more official.</span></span>
+          </label>
+        </div>
+
+        <div class="field" role="radiogroup" aria-labelledby="lbl-tier">
+          <span class="label" id="lbl-tier">7. Class of discharge</span>
+          <label class="radio-card">
+            <input type="radio" name="f-tier" value="standard" checked>
+            <span><span class="rc-title">Standard Discharge</span><span class="rc-price">$4</span><br>
+            <span class="rc-desc">One project, honorably abandoned. Certificate, registry number, permanent public entry, clean conscience.</span></span>
+          </label>
+          <label class="radio-card">
+            <input type="radio" name="f-tier" value="honors">
+            <span><span class="rc-title">Discharge with Full Honors</span><span class="rc-price">$7</span><br>
+            <span class="rc-desc">Everything in Standard, plus the commendation “Abandoned with Distinction” and a gold seal. The seal is digital. The record is forever.</span></span>
+          </label>
+        </div>
+
+        <div class="field">
+          <label for="f-email">8. Email (optional)</label>
+          <input type="email" id="f-email" maxlength="254" placeholder="registrar@example.gov" autocomplete="email">
+          <div class="hint">For your records only. Never displayed, never sold, never used to ask how the novel is going.</div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="f-submit" style="width:100%">Submit Form UB-1</button>
+        <div class="small-print">Filing assigns your registry number immediately. The fee is collected at the till (Stripe).</div>
+      </div>
+    </form>
+  </section>
+
+  <section id="fees">
+    <h2 class="sec-head">Schedule of Fees</h2>
+    <div class="sec-sub">Fixed. Non-negotiable. Cheaper than the hobby was.</div>
+    <div class="tiers">
+      <div class="tier">
+        <div class="t-name">Standard Discharge</div>
+        <div class="t-price">$4</div>
+        <div class="t-line">One project, honorably abandoned. Certificate, registry number, permanent public entry, clean conscience.</div>
+        <div class="t-note"><a href="#form-ub1">File Form UB-1</a></div>
+      </div>
+      <div class="tier gold">
+        <div class="t-name">Discharge with Full Honors</div>
+        <div class="t-price">$7</div>
+        <div class="t-line">Everything in Standard, plus the commendation “Abandoned with Distinction.” The gold seal is digital. The record is forever.</div>
+        <div class="t-note"><a href="#form-ub1">File Form UB-1</a></div>
+      </div>
+      <div class="tier">
+        <div class="t-name">Objection to Abandonment</div>
+        <div class="t-price">$5</div>
+        <div class="t-line">For the friend who believes. Your statement of faith is filed beside their discharge and both are stamped CONTESTED. No project has ever been finished this way. The Department admires the gesture anyway.</div>
+        <div class="t-note">Filed from any certificate page</div>
+      </div>
+      <div class="tier">
+        <div class="t-name">Miracle Amendment</div>
+        <div class="t-price">$3</div>
+        <div class="t-line">For discharged projects that were, against every precedent, finished. The certificate is restamped COMPLETED — CLASSIFICATION: MIRACLE. Our happiest customers. Our most confusing.</div>
+        <div class="t-note">Filed from your certificate page</div>
+      </div>
+      <div class="tier">
+        <div class="t-name">Gift Discharge</div>
+        <div class="t-price">$5</div>
+        <div class="t-line">Permission to quit, for someone who needs to hear it. You pay; they name the project; everyone stops pretending.</div>
+        <div class="t-note">Status: awaiting internal review. Begun in good faith in 2026.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="registry-preview">
+    <h2 class="sec-head">The Public Registry of Unfinished Business</h2>
+    <div class="sec-sub" id="reg-stats-line">Latest matters closed</div>
+    <div class="reg-table-wrap">
+      <table class="reg" id="reg-table">
+        <thead>
+          <tr><th>Registry No.</th><th>Undertaking</th><th>Holder</th><th>Cause of Abandonment</th><th>Guilt Accrued</th><th>Status</th></tr>
+        </thead>
+        <tbody><tr><td colspan="6" style="text-align:center; font-family:var(--mono); font-size:13px; color:var(--ink-faded)">Consulting the filing cabinet…</td></tr></tbody>
+      </table>
+    </div>
+    <p style="text-align:center; margin-top:18px"><a class="btn" href="registry.html">The complete Registry</a></p>
+  </section>
+
+  <section id="faq">
+    <h2 class="sec-head">Frequently Asked Questions</h2>
+    <div class="sec-sub">Answered in full, which around here is remarkable</div>
+    <div class="faq">
+      <details>
+        <summary>Is this certificate legally binding?</summary>
+        <div class="a">No. It is emotionally binding, which is the only jurisdiction your unfinished novel was ever going to be tried in.</div>
+      </details>
+      <details>
+        <summary>What exactly do I get for $4?</summary>
+        <div class="a">A permanent page at your own registry number, a computed record of guilt accrued, and a certificate suitable for printing, framing, or attaching to a group chat. This is, for the record, more than the project ever gave you.</div>
+      </details>
+      <details>
+        <summary>What if someone objects to my abandonment?</summary>
+        <div class="a">Any believer may pay $5 to file a formal Objection — “I believe they will finish it” — which is entered beside your discharge, and both documents are stamped CONTESTED. The Department archives disputes. It has never resolved one.</div>
+      </details>
+      <details>
+        <summary>What happens if I finish the project after abandoning it?</summary>
+        <div class="a">Completion of a discharged project is classified by the Department as a miracle, and miracles carry a $3 filing fee. Your certificate is restamped COMPLETED — CLASSIFICATION: MIRACLE and your registry entry updated. Projects do tend to get finished once nobody expects them to be. The Department cannot endorse psychology it merely profits from.</div>
+      </details>
+      <details>
+        <summary>Can I abandon someone else’s project? My husband has a boat.</summary>
+        <div class="a">You may only discharge burdens you personally carry. For the boat, the Department is finalizing Gift Discharges: you pay, he names the project, and the boat becomes a certificate, which fits better in the garage. The waiting list is already substantial.</div>
+      </details>
+      <details>
+        <summary>Is my abandonment made public?</summary>
+        <div class="a">By default, yes — public entries receive the shareable page and appear in the Registry. You may file privately, in which case your entry appears as a number and the word WITHHELD. The Department finds these entries generate the most speculation, and confirms nothing.</div>
+      </details>
+      <details>
+        <summary>Who reads what I submit?</summary>
+        <div class="a">No one, apart from an automated screening for profanity and personal information, which reads everything and enjoys none of it. Entries naming identifiable private individuals are rejected. Any entry may be flagged from its certificate page; entries flagged by three separate households are withheld from public view automatically until the Registrar gets to them. The Registrar accepts correspondence by reply to any Stripe receipt. The Registry files failures, not accusations.</div>
+      </details>
+      <details>
+        <summary>Do you offer refunds?</summary>
+        <div class="a">Yes — reply to your Stripe receipt within 7 days for a full refund, no questions asked. It will be the only request the Department has ever processed without a form.</div>
+      </details>
+      <details>
+        <summary>Is this whole thing a joke?</summary>
+        <div class="a">The seal is satirical. The closure is real. The Department finds these are not in conflict, and four dollars is a competitive rate for the end of guilt.</div>
+      </details>
+    </div>
+  </section>
+
+  <footer>
+    <div class="disclaimer">
+      <div class="d-head">Official Disclaimer of the Department of Unfinished Business</div>
+      The Department of Unfinished Business is not a department of anything. It is not a government agency, a notary, a licensed therapist, or an accredited issuer of honors — which is fitting, because your project was not, in any sense, finished. Certificates of Honorable Abandonment are satirical novelty items sold for entertainment purposes. They confer no legal rights whatsoever — a quality they share with every certificate of their kind; ours simply says so on the front. They discharge no actual obligations and will not hold up in court, at work, or in an argument with your mother. The relief, however, is real, and yours to keep. Public Registry entries are screened automatically for profanity and personal information; the Registrar’s decision is final and delivered without comment. Entries flagged by three separate households are withheld from public view automatically, pending the Registrar’s eventual attention; withheld is not deleted — the number and the record remain. Refunds within 7 days. Void where prohibited; valid wherever things go unfinished, which is everywhere.
+    </div>
+    <div class="foot-meta">
+      Filing fees processed by Stripe · Refunds &amp; correspondence: reply to your receipt · answered in the order received, eventually<br>
+      The Department is staffed by one AI clerk and zero humans · Complaints will be filed<br>
+      <a href="registry.html">Public Registry</a> · <a href="#faq">Questions</a> · © 2026, insofar as one can copyright a filing cabinet
+    </div>
+  </footer>
+</div>
+
+<script src="assets/dub.js"></script>
+<script>
+document.getElementById("masthead-seal").innerHTML = sealSVG();
+
+/* form population */
+const mSel = document.getElementById("f-began-m");
+const ySel = document.getElementById("f-began-y");
+const tmSel = document.getElementById("f-touched-m");
+const tySel = document.getElementById("f-touched-y");
+const NOW_Y = 2026;
+MONTHS.forEach((m, i) => mSel.add(new Option(m, String(i + 1))));
+for (let y = NOW_Y; y >= 1940; y--) ySel.add(new Option(String(y), String(y)));
+MONTHS.forEach((m, i) => tmSel.add(new Option(m, String(i + 1))));
+for (let y = NOW_Y; y >= 1940; y--) tySel.add(new Option(String(y), String(y)));
+mSel.value = "1"; ySel.value = String(NOW_Y - 2);
+
+const causeSel = document.getElementById("f-cause");
+CAUSES.forEach((c) => causeSel.add(new Option(c, c)));
+causeSel.add(new Option("State your own…", "__custom"));
+const causeCustom = document.getElementById("f-cause-custom");
+causeSel.addEventListener("change", () => {
+  causeCustom.style.display = causeSel.value === "__custom" ? "block" : "none";
+});
+
+/* payments notice */
+(async () => {
+  try {
+    const rows = await dubRest("registry_public_config?select=key,value&key=eq.payments_open");
+    const open = rows.length && rows[0].value === "true";
+    document.getElementById("payments-notice").hidden = open;
+  } catch { /* leave hidden */ }
+})();
+
+/* registry preview */
+(async () => {
+  const tbody = document.querySelector("#reg-table tbody");
+  try {
+    const rows = await dubRest("registry_live?select=claim_key,project,claimant,stamp,status,meta,created_at&order=created_at.desc&limit=8");
+    if (!rows.length) {
+      tbody.innerHTML = `<tr><td colspan="6" style="text-align:center">The Registry awaits its first matter.</td></tr>`;
+      return;
+    }
+    tbody.innerHTML = rows.map((r) => {
+      const s = stampInfo(r);
+      const withheld = r.project === "WITHHELD";
+      return `<tr>
+        <td class="no"><a href="${certPath(r.claim_key)}">${esc(r.claim_key)}</a></td>
+        <td>${withheld ? '<span class="withheld">WITHHELD</span>' : esc(r.project)}</td>
+        <td>${withheld ? '<span class="withheld">—</span>' : esc(r.claimant)}</td>
+        <td>${withheld ? '<span class="withheld">—</span>' : esc(r.meta.cause || "—")}</td>
+        <td class="guilt">${withheld ? "—" : fmtInt(r.meta.guilt_days) + " days"}</td>
+        <td><span class="badge ${s.cls}">${s.label}</span>${r.meta.honors ? ' <span class="badge honors">HONORS</span>' : ""}</td>
+      </tr>`;
+    }).join("");
+  } catch {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center">The filing cabinet is momentarily jammed.</td></tr>`;
+  }
+})();
+
+/* submission */
+const form = document.getElementById("form-ub1");
+const errBox = document.getElementById("form-error");
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  errBox.classList.remove("show");
+  const btn = document.getElementById("f-submit");
+
+  const cause = causeSel.value === "__custom" ? causeCustom.value.trim() : causeSel.value;
+  const body = {
+    project: document.getElementById("f-project").value.trim(),
+    name: document.getElementById("f-name").value.trim(),
+    began: `${ySel.value}-${String(mSel.value).padStart(2, "0")}`,
+    cause,
+    visibility: document.querySelector('input[name="f-vis"]:checked').value,
+    honors: document.querySelector('input[name="f-tier"]:checked').value === "honors",
+  };
+  if (tmSel.value && tySel.value) {
+    body.last_touched = `${tySel.value}-${String(tmSel.value).padStart(2, "0")}`;
+  } else if (tmSel.value || tySel.value) {
+    errBox.textContent = "Last touched requires both a month and a year, or neither. The Department is particular.";
+    errBox.classList.add("show");
+    return;
+  }
+  const email = document.getElementById("f-email").value.trim();
+  if (email) body.email = email;
+
+  if (!body.project || body.project.length < 3) {
+    errBox.textContent = "Field 1: the undertaking requires a name of at least 3 characters.";
+    errBox.classList.add("show");
+    return;
+  }
+  if (!body.name) {
+    errBox.textContent = "Field 5: a holder name is required. Initials are acceptable.";
+    errBox.classList.add("show");
+    return;
+  }
+  if (!cause) {
+    errBox.textContent = "Field 4: a cause of abandonment is required. If none apply, state your own.";
+    errBox.classList.add("show");
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = "Filing…";
+  let filed = false;
+  try {
+    const res = await dubFn("registry-file", body);
+    if (!res.ok || !res.data || !res.data.ok) {
+      errBox.textContent = (res.data && res.data.error) || "The filing cabinet jammed. Please try again.";
+      errBox.classList.add("show");
+      return;
+    }
+    const c = res.data.claim;
+    filed = true;
+    dubSaveFiling({
+      registry_no: c.registry_no, token: c.token, pay_url: c.pay_url,
+      payments_open: c.payments_open, price_cents: c.price_cents,
+    });
+    window.location.href = `${certPath(c.registry_no)}?t=${encodeURIComponent(c.token)}&new=1`;
+  } catch {
+    errBox.textContent = "The Department could not be reached. It happens to everyone.";
+    errBox.classList.add("show");
+  } finally {
+    // stay disabled on success so a second tap cannot file a duplicate while navigating
+    if (!filed) {
+      btn.disabled = false;
+      btn.textContent = "Submit Form UB-1";
+    }
+  }
+});
+</script>
+</body>
+</html>
