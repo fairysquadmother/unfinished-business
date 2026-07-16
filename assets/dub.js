@@ -6,26 +6,30 @@ const DUB = {
 };
 
 const CAUSES = [
-  "Seasonal Ambition",
-  "Scope Creep",
-  "I Met Someone (a Different Hobby)",
   "January",
+  "Scope Creep",
+  "Seasonal Ambition",
+  "I Met Someone (a Different Hobby)",
   "The Tutorial Ended",
   "Chapter Two",
+  "Doing Research (Year Three)",
   "Required Talking to Strangers",
   "The Free Trial Expired",
   "It Became Exercise",
+  "The Couch Portion Went Extremely Well",
   "Perfectionism, Terminal",
-  "The Group Chat Went Quiet",
+  "The Notebook Was Too Nice to Write In",
+  "Bought the Domain Instead",
+  "The Playlist Was the Best Part",
+  "Would Have Had to Practice",
   "Needed One More Part From the Hardware Store",
-  "The YouTube Video Made It Look Easier",
   "A Small Child Appeared",
   "Turned Out to Involve Math",
   "Waiting for the Right Moment (Ongoing)",
-  "The Fun Part Ended",
-  "Someone Else Did It Better",
+  "The Version in My Head Was Done",
   "Someone Asked How It Was Going",
-  "Budget Reallocated to Snacks",
+  "Untitled_final_v2_FINAL(3)",
+  "The Guitar Knows What It Heard",
   "It Knew What It Did",
   "No Memory of Starting This",
 ];
@@ -139,7 +143,11 @@ function sealSVG(opts = {}) {
   return `
 <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Seal of the Department of Unfinished Business: a laurel wreath encircling an empty checkbox">
   <circle cx="60" cy="60" r="57" fill="${gold ? "#f6efdc" : "#f7f2e7"}" stroke="${ring}" stroke-width="2.5"/>
+  <circle cx="60" cy="60" r="53.5" fill="none" stroke="${ring}" stroke-width="0.6" stroke-dasharray="1 2.4"/>
   <circle cx="60" cy="60" r="50" fill="none" stroke="${ring}" stroke-width="0.75"/>
+  <g stroke="${ring}" stroke-width="1">
+    <path d="M60 3 v5 M60 112 v5 M3 60 h5 M112 60 h5"/>
+  </g>
   <defs><path id="${id}" d="M 60 60 m -43 0 a 43 43 0 1 1 86 0"/></defs>
   <text font-family="'Courier Prime', monospace" font-size="7.2" letter-spacing="2.2" fill="${ring}">
     <textPath href="#${id}" startOffset="50%" text-anchor="middle">${arcText}</textPath>
@@ -150,7 +158,12 @@ function sealSVG(opts = {}) {
     <path d="M29 70 l-6 -4 M31 78 l-7 -2 M35 85 l-7 1 M41 90 l-6 4 M48 93 l-4 6"/>
     <path d="M91 70 l6 -4 M89 78 l7 -2 M85 85 l7 1 M79 90 l6 4 M72 93 l4 6"/>
   </g>
+  <g fill="${ring}">
+    <circle cx="26" cy="74" r="1.5"/><circle cx="30" cy="82" r="1.5"/><circle cx="37" cy="89" r="1.5"/>
+    <circle cx="94" cy="74" r="1.5"/><circle cx="90" cy="82" r="1.5"/><circle cx="83" cy="89" r="1.5"/>
+  </g>
   <rect x="46" y="38" width="28" height="28" rx="2.5" fill="none" stroke="${ring}" stroke-width="2.4"/>
+  <rect x="49.5" y="41.5" width="21" height="21" rx="1.5" fill="none" stroke="${ring}" stroke-width="0.6" opacity="0.55"/>
   <text x="60" y="82" font-family="'Courier Prime', monospace" font-size="6" letter-spacing="1.6" fill="${ring}" text-anchor="middle">EST. IN PERPETUITY</text>
 </svg>`;
 }

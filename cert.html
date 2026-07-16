@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="assets/dub.css">
 </head>
 <body class="printing-cert">
+<div class="gov-banner"><span class="flag" aria-hidden="true"></span>An official website of no government whatsoever. Here’s how you know: this banner.</div>
 
 <div class="wrap">
   <div class="formline">
@@ -37,6 +38,7 @@
   <footer>
     <div class="foot-meta">
       The Department of Unfinished Business · satirical novelty documents · no legal effect, considerable relief<br>
+      Wrong window for absolution (<a href="https://jeebus.help">jeebus.help</a>) or judgment (<a href="https://jeebus.bot">jeebus.bot</a>). This one stamps.<br>
       <a href="./#form-ub1">File your own discharge — $4</a> · <a href="registry.html">Public Registry</a>
     </div>
   </footer>
@@ -46,7 +48,7 @@
 <div class="modal-back" id="obj-modal">
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="obj-title">
     <h3 id="obj-title">Formal Objection to Abandonment</h3>
-    <div class="m-sub">$5 filing fee. Both documents will be stamped CONTESTED. No project has ever been finished this way. The Department admires the gesture anyway.</div>
+    <div class="m-sub">$5 filing fee. Both documents are stamped CONTESTED, permanently. No objection has ever finished a project. Several have ended friendships.</div>
     <div class="form-error" id="obj-error" role="alert"></div>
     <div class="field">
       <label for="obj-name">Name of believer</label>
@@ -90,8 +92,8 @@ function renderCert(c) {
   if (c.stamp === "miracle") stamps.push('<div class="stamp miracle">Completed — Classification: Miracle</div>');
 
   const recital = withheld
-    ? `the particulars of which are withheld at the holder’s request, having been pursued to the full extent that time, energy, and interest allowed, and not one step further, is hereby declared`
-    : `begun in good faith in ${esc(fmtMonth(c.meta.began))} by the holder named below, having been pursued to the full extent that time, energy, and interest allowed, and not one step further, is hereby declared`;
+    ? `the particulars of which rest under seal at the holder’s request, pursued to the precise extent that time, attention, and enthusiasm permitted — no farther, none being required — is hereby declared`
+    : `begun in good faith in ${esc(fmtMonth(c.meta.began))} by the holder named below, and pursued to the precise extent that time, attention, and enthusiasm permitted — no farther, none being required — is hereby declared`;
 
   document.getElementById("cert-root").innerHTML = `
   <div class="certificate ${honors ? "honors" : ""}">
@@ -119,16 +121,15 @@ function renderCert(c) {
 
     <div class="c-conditions">
       <div class="ch">Conditions of Release</div>
-      <p><b>Article I.</b> The holder shall no longer say “I should really get back to that.”</p>
-      <p><b>Article II.</b> The holder shall not open the project folder to check on it. It is fine. It is exactly where they left it.</p>
-      <p><b>Article III.</b> The holder is free to begin something new, which the Department notes, without comment, is how this one started.</p>
+      <p><b>Article I.</b> The holder shall not say, aloud or otherwise, “I should really get back to that.”</p>
+      <p><b>Article II.</b> The holder shall not open the folder to look. The folder is as it was left. Folders are.</p>
+      <p><b>Article III.</b> The holder is at liberty to begin anew. The Department records, for the file only, that this is how the present file began.</p>
     </div>
 
     <div class="c-closing">
-      The above-named project is discharged from the conscience of
+      The above-named undertaking is discharged from the conscience of 
       <b style="font-style:normal">${withheld ? "the holder of record" : esc(c.name)}</b>
-      ${honors ? "with full honors" : "with honor"}. This matter is closed and — like the project — will not be revisited.
-      Entered this day into the Public Registry of Unfinished Business, where it shall remain finished being unfinished in perpetuity.
+       ${honors ? "with full honors" : "with honor"}. The matter is closed, the drawer is shut, and this entry stands in the Public Registry of Unfinished Business, complete at last in the one particular required of it.
     </div>
 
     <div class="c-sig-row">
@@ -136,11 +137,11 @@ function renderCert(c) {
       <div class="c-sig">
         <div class="sig-script">The Registrar</div>
         <div class="sig-line">Registrar of Unfinished Business</div>
-        <div class="sig-note">(who was not there, and is taking your word for it)</div>
+        <div class="sig-note">(absent at the events described, and content to remain so)</div>
       </div>
     </div>
 
-    <div class="c-fine">This certificate certifies nothing and settles everything.</div>
+    <div class="c-fine">Void of legal effect; conclusive in all other respects.</div>
   </div>`;
 
   document.title = withheld
@@ -161,13 +162,13 @@ function renderPayBanner(c) {
   if (payUrl) {
     root.innerHTML = `<div class="pay-banner">
       <div class="pb-head">The filing fee is due</div>
-      <p>Your registry number is assigned and held for 72 hours. Pay the $${price} fee at the till to make the discharge official and enter it into the Public Registry.</p>
+      <p>Your registry number is assigned and held for 72 hours; pay the fee at the till and the discharge is official — stamped, entered, and beyond appeal. Until then the certificate bears AWAITING FEE, a stamp people frame anyway.</p>
       <a class="btn btn-primary" href="${esc(payUrl)}">Pay the Filing Fee — $${price}</a>
     </div>`;
   } else {
     root.innerHTML = `<div class="pay-banner">
       <div class="pb-head">Filed and held</div>
-      <p>The Registrar’s till opens shortly. Your filing and registry number are held for 72 hours; return to this page (bookmark it) to pay the $${price} fee and make the discharge official. Nothing further is required of you, a phrase we suspect you enjoy.</p>
+      <p>The till is closed at present. Your filing and registry number are held for 72 hours — bookmark this page and return to pay the fee. The Department will not remind you. It has seen your reminders.</p>
     </div>`;
   }
 }
@@ -203,7 +204,7 @@ function renderActions(c) {
     const url = new URL(certPath(c.registry_no), location.href).toString();
     try {
       await navigator.clipboard.writeText(url);
-      toast("Link copied. Distribute with appropriate gravity.");
+      toast("Link copied. Serve cold.");
     } catch { toast(url); }
   });
 
@@ -266,7 +267,7 @@ document.getElementById("obj-submit").addEventListener("click", async () => {
   err.classList.remove("show");
   const name = document.getElementById("obj-name").value.trim();
   const statement = document.getElementById("obj-statement").value.trim();
-  if (!name) { err.textContent = "An objection requires a believer’s name."; err.classList.add("show"); return; }
+  if (!name) { err.textContent = "An objection requires a believer’s name. Anonymous faith is filed under Doubt."; err.classList.add("show"); return; }
   btn.disabled = true;
   btn.textContent = "Filing…";
   const res = await dubFn("registry-amend", { registry_no: REG_NO, type: "objection", name, statement });
@@ -322,12 +323,12 @@ document.getElementById("obj-submit").addEventListener("click", async () => {
   }
   if (!c) {
     document.getElementById("cert-root").innerHTML =
-      `<p style="text-align:center; padding:60px 0">No public record at ${esc(REG_NO)}. It may be awaiting its fee, withheld, or imaginary — the Department treats all three the same. <a href="./">Return to the office.</a></p>`;
+      `<p style="text-align:center; padding:60px 0">No file under ${esc(REG_NO)}. Awaiting its fee, withheld, or imaginary — from this side of the counter, identical. <a href="./">Return to the office.</a></p>`;
     return;
   }
 
   CERT = c;
-  if (PARAMS.get("minted") === "1") toast("The matter is closed. You are free to go start something else.", 5200);
+  if (PARAMS.get("minted") === "1") toast("The matter is closed. Kindly clear the window for the next petitioner.", 5200);
   renderCert(c);
   renderPayBanner(c);
   renderObjections(c);

@@ -27,11 +27,85 @@ body {
   background: var(--parchment);
   background-image: repeating-linear-gradient(
       0deg, rgba(140, 120, 80, 0.025) 0px, transparent 1px, transparent 3px),
-    radial-gradient(ellipse at 50% -20%, rgba(255, 252, 240, 0.9), transparent 60%);
+    radial-gradient(ellipse at 50% -20%, rgba(255, 252, 240, 0.9), transparent 60%),
+    radial-gradient(ellipse at 50% 120%, rgba(120, 100, 60, 0.14), transparent 55%);
   color: var(--ink);
   font-family: var(--serif);
   font-size: 19px;
   line-height: 1.55;
+  position: relative;
+}
+
+/* paper grain */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.5;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='p'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.55 0 0 0 0 0.50 0 0 0 0 0.40 0 0 0 0.05 0'/></filter><rect width='240' height='240' filter='url(%23p)'/></svg>");
+}
+body > * { position: relative; z-index: 2; }
+
+/* the not-a-government banner */
+.gov-banner {
+  background: var(--archival);
+  color: #e9e2cf;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  text-align: center;
+  padding: 7px 14px;
+}
+.gov-banner .flag {
+  display: inline-block; width: 14px; height: 10px; margin-right: 7px; vertical-align: -1px;
+  background: linear-gradient(180deg, #6e1e1e 0 34%, #e9e2cf 34% 67%, #6e1e1e 67% 100%);
+  outline: 1px solid rgba(233, 226, 207, 0.4);
+}
+
+/* ghost intake stamp */
+.ghost-stamp {
+  position: absolute;
+  top: 30px; right: -10px;
+  transform: rotate(-14deg);
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.5;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--oxblood);
+  border: 3px double var(--oxblood);
+  padding: 8px 16px;
+  opacity: 0.14;
+  pointer-events: none;
+  text-align: center;
+}
+
+/* routing marginalia */
+.margin-note {
+  float: right;
+  transform: rotate(1.2deg);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--rule-dark);
+  border: 1px solid var(--rule);
+  padding: 3px 8px;
+  margin: -6px 0 10px 16px;
+  user-select: none;
+}
+
+/* redaction bar */
+.redact {
+  background: var(--ink);
+  color: var(--ink);
+  padding: 0 6px;
+  border-radius: 1px;
+  user-select: none;
 }
 
 a { color: var(--oxblood); text-decoration-thickness: 1px; text-underline-offset: 2px; }
@@ -71,7 +145,7 @@ a:hover { color: var(--ink); }
 .rule-orn::before, .rule-orn::after { content: ""; flex: 1; border-top: 1px solid var(--rule-dark); }
 
 /* ---- hero ---- */
-.hero { text-align: center; padding: 26px 0 8px; }
+.hero { text-align: center; padding: 26px 0 8px; position: relative; }
 .hero h2 { font-size: clamp(30px, 6vw, 52px); font-weight: 500; line-height: 1.12; }
 .hero p { max-width: 640px; margin: 22px auto 0; font-size: 20px; color: var(--ink-faded); }
 .cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin: 34px 0 10px; }
@@ -80,9 +154,11 @@ a:hover { color: var(--ink); }
   display: inline-block; font-family: var(--mono); font-size: 14px;
   letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none;
   padding: 13px 22px; border: 1.5px solid var(--ink); color: var(--ink);
-  background: var(--panel); cursor: pointer; transition: all 0.15s ease;
+  background: var(--panel); cursor: pointer; transition: all 0.12s ease;
+  box-shadow: 2.5px 2.5px 0 rgba(35, 32, 27, 0.35);
 }
 .btn:hover { background: var(--ink); color: var(--parchment); }
+.btn:active { transform: translate(2px, 2px); box-shadow: none; }
 .btn-primary { background: var(--oxblood); border-color: var(--oxblood); color: #f6efe2; }
 .btn-primary:hover { background: #571717; border-color: #571717; color: #f6efe2; }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; }
@@ -120,7 +196,11 @@ section { padding: 44px 0 10px; }
 .formbox {
   border: 2px solid var(--ink); background: var(--panel);
   max-width: 680px; margin: 0 auto; padding: 0;
-  box-shadow: 6px 6px 0 rgba(35, 32, 27, 0.08);
+  /* a pad of forms: white copy, pink copy, goldenrod copy */
+  box-shadow:
+    5px 5px 0 rgba(140, 43, 43, 0.14),
+    10px 10px 0 rgba(168, 134, 58, 0.12),
+    14px 16px 22px rgba(35, 32, 27, 0.12);
 }
 .formbox .form-title {
   border-bottom: 2px solid var(--ink); padding: 12px 20px;
@@ -176,6 +256,8 @@ table.reg th {
   background: rgba(35,32,27,0.03);
 }
 table.reg td { padding: 11px 14px; border-bottom: 1px dotted var(--rule); vertical-align: top; overflow-wrap: anywhere; }
+table.reg tbody tr:nth-child(even) { background: rgba(35, 32, 27, 0.028); }
+table.reg tbody tr:hover { background: rgba(168, 134, 58, 0.09); }
 table.reg tr:last-child td { border-bottom: 0; }
 table.reg td.no { font-family: var(--mono); font-size: 13px; white-space: nowrap; }
 table.reg td.no a { text-decoration: none; color: var(--oxblood); }
@@ -205,7 +287,21 @@ table.reg td.guilt { font-family: var(--mono); font-size: 13px; white-space: now
 .faq .a { padding: 0 4px 16px 30px; color: var(--ink-faded); }
 
 /* ---- footer ---- */
-footer { margin-top: 60px; border-top: 2px solid var(--ink); padding: 30px 0 50px; }
+footer {
+  margin-top: 60px;
+  border-top: 2px dashed var(--rule-dark);
+  padding: 30px 0 50px;
+  position: relative;
+}
+footer::before {
+  content: "✂";
+  position: absolute;
+  top: -13px; left: 26px;
+  color: var(--rule-dark);
+  background: var(--parchment);
+  padding: 0 6px;
+  font-size: 15px;
+}
 .disclaimer {
   font-size: 14.5px; color: var(--ink-faded); max-width: 760px; margin: 0 auto;
   line-height: 1.65;
@@ -365,6 +461,8 @@ footer { margin-top: 60px; border-top: 2px solid var(--ink); padding: 30px 0 50p
 
 @media (max-width: 620px) {
   body { font-size: 17px; }
+  .ghost-stamp { display: none; }
+  .margin-note { display: none; }
   .certificate { padding: 44px 22px 36px; }
   .certificate .c-stats .k { min-width: 0; display: block; }
   .certificate .c-sig-row { justify-content: center; }
@@ -377,6 +475,8 @@ footer { margin-top: 60px; border-top: 2px solid var(--ink); padding: 30px 0 50p
 /* print: the certificate is the page */
 @media print {
   body { background: #fff; }
+  body::before { display: none; }
+  .gov-banner, .ghost-stamp, .margin-note { display: none; }
   body.printing-cert > *:not(.wrap) { display: none; }
   body.printing-cert .wrap > *:not(.cert-stage) { display: none; }
   .cert-stage { padding: 0; }
