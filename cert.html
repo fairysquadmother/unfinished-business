@@ -198,6 +198,8 @@ function renderActions(c) {
   const isHolder = !!TOKEN;
   const canMiracle = isHolder && c.stamp !== "miracle" && c.status !== "pending";
   const canObject = c.status !== "pending" && c.stamp !== "miracle";
+  const badgeUrl = `https://opdiwufyuxogwkjhhkig.supabase.co/functions/v1/registry-badge?no=${encodeURIComponent(c.registry_no)}`;
+  const badgeMd = `[![Honorably Abandoned](${badgeUrl})](https://guilt.tax/cert.html?no=${encodeURIComponent(c.registry_no)})`;
   document.getElementById("actions-root").innerHTML = `<div class="cert-actions">
     <button class="btn" id="act-print">Print / Save PDF</button>
     <button class="btn" id="act-share">Copy Link</button>
@@ -205,7 +207,17 @@ function renderActions(c) {
     ${canMiracle ? '<button class="btn" id="act-miracle">Report a Miracle — $3</button>' : ""}
     <button class="btn" id="act-report" title="Flag this entry for the Registrar">⚑ Flag</button>
   </div>
-  <div class="small-print">Objections may be filed by any believer. Miracles, only by the holder.</div>`;
+  <div class="small-print">Objections may be filed by any believer. Miracles, only by the holder.</div>
+  ${c.status !== "pending" ? `
+  <div class="badge-kit">
+    <div class="bk-head">Badge for the README</div>
+    <div class="bk-sub">For repositories that deserve a dignified end.</div>
+    <img src="${badgeUrl}" alt="Honorably Abandoned — ${esc(c.registry_no)}" height="20">
+    <div class="bk-row">
+      <input readonly id="bk-md" value="${esc(badgeMd)}" aria-label="Badge markdown">
+      <button class="btn" id="bk-copy">Copy Markdown</button>
+    </div>
+  </div>` : ""}`;
 
   document.getElementById("act-print").addEventListener("click", () => window.print());
   document.getElementById("act-share").addEventListener("click", async () => {
@@ -241,6 +253,16 @@ function renderActions(c) {
     if (reason === null) return;
     const res = await dubFn("registry-report", { registry_no: c.registry_no, reason });
     toast((res.data && res.data.message) || "Received.");
+  });
+
+  const bkCopy = document.getElementById("bk-copy");
+  if (bkCopy) bkCopy.addEventListener("click", async () => {
+    const md = document.getElementById("bk-md");
+    md.select();
+    try {
+      await navigator.clipboard.writeText(md.value);
+      toast("Markdown copied. The repository may now rest.");
+    } catch { toast("Select and copy manually. The Department has done what it can."); }
   });
 }
 

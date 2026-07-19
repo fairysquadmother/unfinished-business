@@ -436,6 +436,20 @@ footer::before {
 .pay-banner .pb-head { font-variant: small-caps; letter-spacing: 0.1em; font-size: 20px; color: var(--oxblood); }
 .pay-banner p { font-size: 16px; color: var(--ink-faded); margin: 8px 0 14px; }
 
+/* badge kit */
+.badge-kit {
+  max-width: 680px; margin: 20px auto 0; border: 1px solid var(--rule-dark);
+  background: var(--panel); padding: 16px 20px; text-align: center;
+}
+.badge-kit .bk-head { font-variant: small-caps; letter-spacing: 0.1em; font-size: 17px; }
+.badge-kit .bk-sub { font-size: 14px; font-style: italic; color: var(--ink-faded); margin: 2px 0 12px; }
+.badge-kit img { margin-bottom: 12px; }
+.badge-kit .bk-row { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.badge-kit input {
+  flex: 1; min-width: 220px; font-family: var(--mono); font-size: 12px;
+  padding: 9px 10px; border: 1px solid var(--rule-dark); background: #fffdf6; color: var(--ink-faded);
+}
+
 /* modal */
 .modal-back {
   display: none; position: fixed; inset: 0; background: rgba(35, 32, 27, 0.55); z-index: 40;
