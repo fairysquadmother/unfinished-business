@@ -72,6 +72,14 @@ const PATH_NO = decodeURIComponent((location.pathname.match(/\/cert\/([^/]+)/) |
 const PARAMS = new URLSearchParams(location.search);
 const REG_NO = PATH_NO.trim().toUpperCase();
 
+// Canonical: each certificate is its own document of record.
+if (/^UB-\d{4}-\d{6}$/.test(REG_NO)) {
+  const canon = document.createElement("link");
+  canon.rel = "canonical";
+  canon.href = `https://guilt.tax/cert.html?no=${encodeURIComponent(REG_NO)}`;
+  document.head.appendChild(canon);
+}
+
 let CERT = null;        // full record
 let TOKEN = null;       // proof of ownership, if this visitor filed it
 let PAY_LINKS = {};     // public config
